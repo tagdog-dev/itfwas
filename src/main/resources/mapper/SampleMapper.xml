@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itf.was.mapper.SampleMapper">
+
+	<!-- Result Map : 원본 -->
+	<resultMap id="resultMap" type="sample">
+		<id property="idx" column="idx"/>
+		<result property="nm" column="nm" />
+		<result property="cn" column="cn" />
+	</resultMap>
+
+	<resultMap id="selectFluxResultMap" type="sample">
+		<id property="idx" column="idx"/>
+		<result property="nm" column="nm" />
+		<result property="cn" column="cn" />
+	</resultMap>
+
+	<!-- Column : 원본 -->
+	<sql id="column">
+		<trim suffix="" suffixOverrides=",">
+			sample.idx AS idx,
+			sample.nm AS nm,
+			sample.cn AS cn,
+		</trim>
+	</sql>
+
+	<sql id="selectFluxColumn">
+		<trim suffix="" prefixOverrides=",">
+			sample.idx AS idx,
+			sample.nm AS nm,
+			sample.cn AS cn,
+		</trim>
+	</sql>
+
+	<!-- Where : 원본 -->
+	<sql id="where">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="@com.itf.was.common.util.ObjectCheck@notEmpty( idx )">
+				AND sample.idx = #{ idx }
+			</if>
+			<if test="@com.itf.was.common.util.ObjectCheck@notEmpty( nm )">
+				AND sample.nm = #{ nm }
+			</if>
+			<if test="@com.itf.was.common.util.ObjectCheck@notEmpty( cn )">
+				AND sample.cn = #{ cn }
+			</if>
+		</trim>
+	</sql>
+
+	<sql id="idxWhere">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			AND sample.idx = #{ idx }
+		</trim>
+	</sql>
+
+	<!-- Order : 원본 -->
+	<sql id="order">
+
+	</sql>
+
+	<!-- CREATE -->
+	<insert id="insertMono" parameterType="sampleDto">
+		INSERT INTO sample
+		(
+			nm,
+			cn
+		)
+		VALUES
+		(
+			#{ nm },
+			#{ cn }
+		)
+	</insert>
+
+	<!-- READ -->
+	<select id="selectAll" parameterType="sampleDto" resultType="sample">
+		SELECT
+			<include refid="column" />
+		FROM
+			sample sample
+		<include refid="where" />
+		<include refid="order" />
+	</select>
+
+	<select id="selectFlux" parameterType="sampleDto" resultType="sample">
+		SELECT
+			<include refid="column" />
+		FROM
+			sample sample
+		<include refid="where" />
+		<include refid="order" />
+	</select>
+
+	<select id="selectMono" parameterType="sampleDto" resultType="sample">
+		SELECT
+			<include refid="column" />
+		FROM
+			sample sample
+		<include refid="idxWhere" />
+	</select>
+
+	<select id="count" parameterType="sampleDto" resultType="int">
+		SELECT
+			COUNT(*) AS count
+		FROM
+			sample sample
+		<include refid="where" />
+	</select>
+
+	<!-- UPDATE -->
+	<update id="updateMono" parameterType="sampleDto">
+		UPDATE
+			sample
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="@com.itf.was.common.util.ObjectCheck@notEmpty( nm )">
+				, nm = #{nm}
+			</if>
+			<if test="@com.itf.was.common.util.ObjectCheck@notEmpty( cn )">
+				, cn = #{cn}
+			</if>
+		</trim>
+		<include refid="idxWhere" />
+	</update>
+
+	<!-- DELETE -->
+	<delete id="deleteMono" parameterType="sampleDto">
+		DELETE FROM
+			sample
+		<include refid="idxWhere" />
+	</delete>
+
+</mapper>

@@ -1,0 +1,45 @@
+spring:
+  jackson:
+    default-property-inclusion: non_null
+  datasource:
+    jdbc-url: jdbc:log4jdbc:mysql://13.209.96.120:3306/sample?zeroDateTimeBehavior=convertToNull&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    username: sample
+    password: 'sample!!'
+    pool-name: hikari-cp
+    maximum-pool-size: 30
+    minimum-idle: 2
+    connectionTestQuery: SELECT 1
+    data-source-properties:
+      cachePrepStmts: true
+      prepStmtCacheSize: 250
+      prepStmtCacheSqlLimit: 2048
+      useServerPrepStmts: true
+  devtools:
+    livereload:
+      enabled: true
+  restart:
+    enabled: true
+  profiles:
+    include: oauth
+  session:
+    store-type: jdbc
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  web:
+    resources:
+      static-locations: /WEB-INF/static
+
+server:
+  port: ${PORT:8081}
+
+# Mybatis
+mybatis:
+  configuration:
+    lazy-loading-enabled: true
+    aggressive-lazy-loading: false
+    map-underscore-to-camel-case: true

@@ -1,0 +1,10 @@
+CREATE TABLE `sample` (
+  `idx` bigint(20) NOT NULL COMMENT '일련번호 (PK)',
+  `nm` varchar(100) NOT NULL COMMENT '명',
+  `cn` text DEFAULT NULL COMMENT '내용',
+  `regi_user_idx` bigint(20) NOT NULL COMMENT '등록_유저_일련번호 (FK)',
+  `regi_dt` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '등록_일시',
+  `upd_dt` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp() COMMENT '수정_일시',
+  `del_dt` timestamp NULL DEFAULT NULL COMMENT '삭제_일시',
+  PRIMARY KEY (`idx`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
